@@ -38,15 +38,16 @@ public class PlayerController : MonoBehaviour
     void ShootProjectile()
     {
         Projectile p = Instantiate(projectile);
-        Vector2 cursorPosition = Mouse.current.position.ReadValue();
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(cursorPosition.x, cursorPosition.y, 0f));
-        Vector2 mouseDirecion = (mousePosition - transform.position).normalized;
-        if (mouseDirecion == Vector2.zero)
+        Vector2 cursorPositionInScreen = Mouse.current.position.ReadValue();
+        Vector3 mousePositionInWorld = Camera.main.ScreenToWorldPoint(cursorPositionInScreen);
+        Vector2 mouseDirection = ((Vector2)(mousePositionInWorld - transform.position)).normalized;
+        if (mouseDirection == Vector2.zero)
         {
-            mouseDirecion = Vector2.up;
+            mouseDirection = Vector2.up;
         }
-        p.transform.position = transform.position + projectileOffset * (Vector3)mouseDirecion;
-        p.Shoot(mouseDirecion, projectileSpeed, projectileDamage);
+        p.transform.position = transform.position + projectileOffset * (Vector3)mouseDirection;
+        // Debug.Log($"sem norm {mouseDirection} -- com norm {mouseDirection.normalized}");
+        p.Shoot(mouseDirection, projectileSpeed, projectileDamage);
     }
 
 
