@@ -60,13 +60,13 @@ public class RoomsManager : MonoBehaviour
         {
             distanceForCamera = roomSize.y;
         }
-        float cameraDelta = (transitionDelta * transitionDistance)/distanceForCamera;
+        float cameraDelta = (transitionDelta * distanceForCamera)/transitionDistance;
         Vector3 targetPosition = player.position + transitionDistance * (Vector3)direction;
         Vector2 cameraTargetPosition = cameraTarget.position + distanceForCamera * (Vector3)direction;
         // cameraTarget.gameObject.SetActive(false);
         while (true)
         {
-            Debug.Log((player.position - targetPosition).magnitude);
+            // Debug.Log((player.position - targetPosition).magnitude);
             player.position = Vector2.MoveTowards(player.position, targetPosition, transitionDelta);
             cameraTarget.position = Vector2.MoveTowards(cameraTarget.position, cameraTargetPosition, cameraDelta);
             if ((player.position - targetPosition).magnitude < 0.01f)
@@ -77,7 +77,7 @@ public class RoomsManager : MonoBehaviour
         }
         player.transform.position = targetPosition;
         cameraTarget.transform.position = currentRoom * roomSize;
-        Debug.Log("bb");
+        // Debug.Log("bb");
         roomTransitionFinished.Invoke();
         inTransition = false;
         // cameraTarget.gameObject.SetActive(true);
