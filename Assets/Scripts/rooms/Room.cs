@@ -22,6 +22,15 @@ public class Room : MonoBehaviour
         ativacaoPortoes = portoesParaFechar;
         OpenGates();
         RoomsManager.Instance.roomChanged += PlayerEntered;
+        RoomsManager.Instance.roomTransitionStarted += DisableDoors;
+    }
+
+    void OnDestroy()
+    {
+        if (RoomsManager.Instance != null)
+        {
+            RoomsManager.Instance.roomTransitionStarted -= DisableDoors;
+        }
     }
 
     public void PlayerEntered(Vector2 coord)
@@ -30,10 +39,14 @@ public class Room : MonoBehaviour
         {
             return;
         }
-        if (roomCoord != RoomsManager.Instance.InitialRoom)
+        if (roomCoord != RoomsManager.Instance.InitialRoom && RoomsManager.Instance.DefeatedRooms.Contains(roomCoord) == false)
         {
             // CloseAllGates();
             RoomsManager.Instance.roomTransitionFinished += CloseAllGates;
+            // foreach(Door porta in portas)
+            // {
+            //     porta.gameObject.SetActive(false);
+            // }
             for(int i = 0; i < 3; i++)
             {
                 CharacterHealthManager e = Instantiate(inimigo);
@@ -41,6 +54,10 @@ public class Room : MonoBehaviour
                 e.died += EnemyKilled;
                 amountOfEnemies++;
             }
+        }
+        else
+        {
+            EnableDoors();
         }
         
     }
@@ -60,11 +77,14 @@ public class Room : MonoBehaviour
         // {
         //     return;
         // }
+        RoomsManager.Instance.DefeatRoom(roomCoord);
         OpenGates();
+        EnableDoors();
     }
 
     void CloseAllGates()
     {
+        // Debug.Log("aa");
         RoomsManager.Instance.roomTransitionFinished -= CloseAllGates;
         for(int i = 0; i < 4; i++)
         {
@@ -77,6 +97,22 @@ public class Room : MonoBehaviour
         for(int i = 0; i < 4; i++)
         {
             portoesBloqueadores[i].SetActive(ativacaoPortoes[i]);
+        }
+    }
+
+    void DisableDoors()
+    {
+        foreach(Door porta in portas)
+        {
+            porta.gameObject.SetActive(false);
+        }
+    }
+
+    void EnableDoors()
+    {
+        foreach(Door porta in portas)
+        {
+            porta.gameObject.SetActive(true);
         }
     }
 }

@@ -61,6 +61,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (attackInput.enabled == false)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
         rb.linearVelocity = movementSpeed * Direction;
         if(AttackPressed && onAttackCooldown == false)
         {

@@ -9,6 +9,10 @@ public class Door : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (RoomsManager.Instance.InTransition)
+        {
+            return;
+        }
         if (collision.gameObject.CompareTag("Player"))
         {
             Vector2 nextRoomCoord = RoomCoord;

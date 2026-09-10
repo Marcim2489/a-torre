@@ -19,9 +19,11 @@ public class RoomsManager : MonoBehaviour
     [SerializeField]Transform player;
     [SerializeField]Transform cameraTarget;
     [SerializeField]float transitionDelta = 0.1f;
+    [SerializeField]float transitionDistance = 3f;
     List<Vector2> existingRooms;
     List<Vector2> availableRooms;
     List<Vector2> usedRooms;
+    List<Vector2> defeatedRooms = new List<Vector2>(16);
 
     Vector2 initialRoom;
     Vector2 bossRoom;
@@ -30,6 +32,7 @@ public class RoomsManager : MonoBehaviour
     public List<Vector2> ExistingRooms => existingRooms;
     public List<Vector2> AvailableRooms => availableRooms;
     public List<Vector2> UsedRooms => usedRooms;
+    public List<Vector2> DefeatedRooms => defeatedRooms;
     public Vector2 InitialRoom => initialRoom;
     public Vector2 BossRoom => bossRoom;
     public Vector2 CurrentRoom => currentRoom;
@@ -39,9 +42,13 @@ public class RoomsManager : MonoBehaviour
     public event UnityAction roomTransitionFinished = delegate{};
 
     bool canRestart = false;
+    bool inTransition = false;
+
+    public bool InTransition => inTransition;
 
     IEnumerator RoomTransition(Vector2 direction)
     {
+        inTransition = true;
         // Vector2 initialPlayerPosition = player.transform.position;
         roomTransitionStarted.Invoke();
         direction.Normalize();
@@ -53,22 +60,37 @@ public class RoomsManager : MonoBehaviour
         {
             distanceForCamera = roomSize.y;
         }
-        float cameraDelta = (transitionDelta * 2f)/distanceForCamera;
-        Vector3 targetPosition = player.transform.position + 2f * (Vector3)direction;
-        while ((player.transform.position - targetPosition).magnitude >= 0.01)
+        float cameraDelta = (transitionDelta * transitionDistance)/distanceForCamera;
+        Vector3 targetPosition = player.position + transitionDistance * (Vector3)direction;
+        Vector2 cameraTargetPosition = cameraTarget.position + distanceForCamera * (Vector3)direction;
+        // cameraTarget.gameObject.SetActive(false);
+        while (true)
         {
-            player.transform.position += transitionDelta * (Vector3)direction;
-            cameraTarget.transform.position += cameraDelta * (Vector3)direction;
+            Debug.Log((player.position - targetPosition).magnitude);
+            player.position = Vector2.MoveTowards(player.position, targetPosition, transitionDelta);
+            cameraTarget.position = Vector2.MoveTowards(cameraTarget.position, cameraTargetPosition, cameraDelta);
+            if ((player.position - targetPosition).magnitude < 0.01f)
+            {
+                break;
+            }
             yield return null;
         }
         player.transform.position = targetPosition;
         cameraTarget.transform.position = currentRoom * roomSize;
+        Debug.Log("bb");
         roomTransitionFinished.Invoke();
+        inTransition = false;
+        // cameraTarget.gameObject.SetActive(true);
     }
 
     public void ChangeRoom(Vector2 coord)
     {
+        if (inTransition)
+        {
+            return;
+        }
         // currentRoom = coord;
+        // Debug.Log("bb");
         StartCoroutine(RoomTransition(coord - currentRoom));
         currentRoom = coord;
         // cameraTarget.position = new Vector3(currentRoom.x * roomSize.x, currentRoom.y * roomSize.y, -10f);
@@ -81,6 +103,15 @@ public class RoomsManager : MonoBehaviour
         roomChanged.Invoke(currentRoom);
         player.position = currentRoom * roomSize;
         cameraTarget.position = currentRoom * roomSize;
+    }
+
+    public void DefeatRoom(Vector2 coord)
+    {
+        if (defeatedRooms.Contains(coord))
+        {
+            return;
+        }
+        defeatedRooms.Add(coord);
     }
 
     void Awake()
