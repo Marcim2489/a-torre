@@ -2,17 +2,26 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField]GameObject[] portoes = new GameObject[4];
+    [SerializeField]GameObject[] portoesBloqueadores = new GameObject[4];
+    [SerializeField]Door[] portas = new Door[4];
+    [SerializeField]CharacterHealthManager inimigo;
 
     bool[] ativacaoPortoes = new bool[4];
 
     Vector2 roomCoord;
 
+    int amountOfEnemies;
+
     public void Setup(bool[] portoesParaFechar, Vector2 coord)
     {
         roomCoord = coord;
+        foreach (Door porta in portas)
+        {
+            porta.RoomCoord = roomCoord;
+        }
         ativacaoPortoes = portoesParaFechar;
         OpenGates();
+        RoomsManager.Instance.roomChanged += PlayerEntered;
     }
 
     public void PlayerEntered(Vector2 coord)
@@ -21,23 +30,45 @@ public class Room : MonoBehaviour
         {
             return;
         }
-        CloseAllGates();
+        if (roomCoord != RoomsManager.Instance.InitialRoom)
+        {
+            // CloseAllGates();
+            RoomsManager.Instance.roomTransitionFinished += CloseAllGates;
+            for(int i = 0; i < 3; i++)
+            {
+                CharacterHealthManager e = Instantiate(inimigo);
+                e.transform.position = transform.position + i * Vector3.right*1.5f;
+                e.died += EnemyKilled;
+                amountOfEnemies++;
+            }
+        }
+        
     }
 
-    public void DefeatedAllEnemies(Vector2 coord)
+    void EnemyKilled()
     {
-        if (roomCoord != coord)
+        amountOfEnemies--;
+        if (amountOfEnemies <= 0)
         {
-            return;
+            DefeatedAllEnemies();
         }
+    }
+
+    void DefeatedAllEnemies()
+    {
+        // if (roomCoord != coord)
+        // {
+        //     return;
+        // }
         OpenGates();
     }
 
     void CloseAllGates()
     {
+        RoomsManager.Instance.roomTransitionFinished -= CloseAllGates;
         for(int i = 0; i < 4; i++)
         {
-            portoes[i].SetActive(true);
+            portoesBloqueadores[i].SetActive(true);
         }
     }
 
@@ -45,7 +76,7 @@ public class Room : MonoBehaviour
     {
         for(int i = 0; i < 4; i++)
         {
-            portoes[i].SetActive(ativacaoPortoes[i]);
+            portoesBloqueadores[i].SetActive(ativacaoPortoes[i]);
         }
     }
 }

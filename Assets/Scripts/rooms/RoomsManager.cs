@@ -2,29 +2,96 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
+using System.Collections;
 
-public class RoomsGenerator : MonoBehaviour
+public class RoomsManager : MonoBehaviour
 {
+    public static RoomsManager Instance {get; private set;}
+
     [SerializeField]int amountOfRooms = 15;
     [SerializeField]int horizontalMapSize = 6;
     [SerializeField]int verticalMapSize = 6;
-    [SerializeField]Vector2 roomSize = new Vector2(21,15);
+    [SerializeField]Vector2 roomSize = new Vector2(21,13);
     [SerializeField]Room roomPlaceholder;
     [SerializeField]Transform bossPlaceholder;
     [SerializeField]InputAction restart;
     [SerializeField]Transform player;
+    [SerializeField]Transform cameraTarget;
+    [SerializeField]float transitionDelta = 0.1f;
     List<Vector2> existingRooms;
     List<Vector2> availableRooms;
     List<Vector2> usedRooms;
 
     Vector2 initialRoom;
     Vector2 bossRoom;
+    Vector2 currentRoom;
+
+    public List<Vector2> ExistingRooms => existingRooms;
+    public List<Vector2> AvailableRooms => availableRooms;
+    public List<Vector2> UsedRooms => usedRooms;
+    public Vector2 InitialRoom => initialRoom;
+    public Vector2 BossRoom => bossRoom;
+    public Vector2 CurrentRoom => currentRoom;
+
+    public event UnityAction<Vector2> roomChanged = delegate{};
+    public event UnityAction roomTransitionStarted = delegate{};
+    public event UnityAction roomTransitionFinished = delegate{};
 
     bool canRestart = false;
 
+    IEnumerator RoomTransition(Vector2 direction)
+    {
+        // Vector2 initialPlayerPosition = player.transform.position;
+        roomTransitionStarted.Invoke();
+        direction.Normalize();
+        float distanceForCamera;
+        if (direction.x != 0f)
+        {
+            distanceForCamera = roomSize.x;
+        }else
+        {
+            distanceForCamera = roomSize.y;
+        }
+        float cameraDelta = (transitionDelta * 2f)/distanceForCamera;
+        Vector3 targetPosition = player.transform.position + 2f * (Vector3)direction;
+        while ((player.transform.position - targetPosition).magnitude >= 0.01)
+        {
+            player.transform.position += transitionDelta * (Vector3)direction;
+            cameraTarget.transform.position += cameraDelta * (Vector3)direction;
+            yield return null;
+        }
+        player.transform.position = targetPosition;
+        cameraTarget.transform.position = currentRoom * roomSize;
+        roomTransitionFinished.Invoke();
+    }
+
+    public void ChangeRoom(Vector2 coord)
+    {
+        // currentRoom = coord;
+        StartCoroutine(RoomTransition(coord - currentRoom));
+        currentRoom = coord;
+        // cameraTarget.position = new Vector3(currentRoom.x * roomSize.x, currentRoom.y * roomSize.y, -10f);
+        roomChanged.Invoke(currentRoom);
+    }
+
+    void TeleportToRoom(Vector2 coord)
+    {
+        currentRoom = coord;
+        roomChanged.Invoke(currentRoom);
+        player.position = currentRoom * roomSize;
+        cameraTarget.position = currentRoom * roomSize;
+    }
+
     void Awake()
     {
+        Instance = this;
         GenerateMap();
+    }
+
+    void OnDestroy()
+    {
+        Instance = null;
     }
 
     void Start()
@@ -32,7 +99,7 @@ public class RoomsGenerator : MonoBehaviour
         InstantiateRooms();
         restart.started += RestartScene;
         restart.Enable();
-        player.position = initialRoom * roomSize;
+        TeleportToRoom(initialRoom);
         bossPlaceholder.position = bossRoom * roomSize;
     }
 

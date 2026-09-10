@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +20,40 @@ public class PlayerController : MonoBehaviour
     Vector2 Direction => movementInput.ReadValue<Vector2>().normalized;
     bool AttackPressed => attackInput.IsPressed();
 
+    IEnumerator attackCooldownCoroutine;
+
     void Start()
+    {
+        movementInput.Enable();
+        attackInput.Enable();
+        RoomsManager.Instance.roomTransitionStarted += DisableControllers;
+        RoomsManager.Instance.roomTransitionFinished += EnableControllers;
+    }
+
+    void OnDestroy()
+    {
+        if (RoomsManager.Instance == null)
+        {
+            return;
+        }
+        RoomsManager.Instance.roomTransitionStarted -= DisableControllers;
+        RoomsManager.Instance.roomTransitionFinished -= EnableControllers;
+    }
+
+    void DisableControllers()
+    {
+        rb.linearVelocity = Vector2.zero;
+        movementInput.Disable();
+        attackInput.Disable();
+        if (attackCooldownCoroutine != null)
+        {
+            StopCoroutine(attackCooldownCoroutine);
+            attackCooldownCoroutine = null;
+        }
+        onAttackCooldown = false;
+    }
+
+    void EnableControllers()
     {
         movementInput.Enable();
         attackInput.Enable();
@@ -31,7 +65,13 @@ public class PlayerController : MonoBehaviour
         if(AttackPressed && onAttackCooldown == false)
         {
             ShootProjectile();
-            StartCoroutine(CooldownTimer());
+            if (attackCooldownCoroutine != null)
+            {
+                StopCoroutine(attackCooldownCoroutine);
+            }
+            attackCooldownCoroutine = CooldownTimer();
+            StartCoroutine(attackCooldownCoroutine);
+            // StartCoroutine(CooldownTimer());
         }
     }
 
