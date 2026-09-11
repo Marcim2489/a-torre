@@ -8,7 +8,6 @@ public class Room : MonoBehaviour
     [SerializeField]GameObject[] bloqueadoresDePortas = new GameObject[4];
     [SerializeField]CharacterHealthManager inimigo;
 
-
     Vector2 roomCoord;
 
     int amountOfEnemies;
@@ -70,11 +69,11 @@ public class Room : MonoBehaviour
     {
         RoomsManager.Instance.DefeatRoom(roomCoord);
         OpenDoors();
+        UpgradeManager.Instance.AddPoints(1);
     }
 
     void CloseDoors()
     {
-        // Debug.Log("aa");
         RoomsManager.Instance.roomTransitionFinished -= CloseDoors;
         for(int i = 0; i < 4; i++)
         {
