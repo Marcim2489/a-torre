@@ -241,7 +241,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &253674143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,7 +762,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 21.316175, y: 13.346544}
+  m_Size: {x: 35.235466, y: 23.27703}
   m_EdgeRadius: 0
 --- !u!1 &993044368
 GameObject:
@@ -917,7 +917,7 @@ MonoBehaviour:
   amountOfRooms: 15
   horizontalMapSize: 6
   verticalMapSize: 6
-  roomSize: {x: 21, y: 13}
+  roomSize: {x: 31, y: 21}
   roomPlaceholder: {fileID: 6608796016071503816, guid: 8ad12b69d26020a4da1f7d99932acec3, type: 3}
   bossPlaceholder: {fileID: 1576331518}
   restart:

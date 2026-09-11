@@ -2,11 +2,12 @@ using UnityEngine;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField]GameObject[] portoesBloqueadores = new GameObject[4];
+    [SerializeField]GameObject[] paredesTampadoras = new GameObject[4];
+    [SerializeField]GameObject[] corredores = new GameObject[4];
     [SerializeField]Door[] portas = new Door[4];
+    [SerializeField]GameObject[] bloqueadoresDePortas = new GameObject[4];
     [SerializeField]CharacterHealthManager inimigo;
 
-    bool[] ativacaoPortoes = new bool[4];
 
     Vector2 roomCoord;
 
@@ -19,8 +20,7 @@ public class Room : MonoBehaviour
         {
             porta.RoomCoord = roomCoord;
         }
-        ativacaoPortoes = portoesParaFechar;
-        OpenGates();
+        CreateRoomWallsAndCorridors(portoesParaFechar);
         RoomsManager.Instance.roomChanged += PlayerEntered;
         RoomsManager.Instance.roomTransitionStarted += DisableDoors;
     }
@@ -41,12 +41,7 @@ public class Room : MonoBehaviour
         }
         if (roomCoord != RoomsManager.Instance.InitialRoom && RoomsManager.Instance.DefeatedRooms.Contains(roomCoord) == false)
         {
-            // CloseAllGates();
-            RoomsManager.Instance.roomTransitionFinished += CloseAllGates;
-            // foreach(Door porta in portas)
-            // {
-            //     porta.gameObject.SetActive(false);
-            // }
+            RoomsManager.Instance.roomTransitionFinished += CloseDoors;
             for(int i = 0; i < 3; i++)
             {
                 CharacterHealthManager e = Instantiate(inimigo);
@@ -57,7 +52,7 @@ public class Room : MonoBehaviour
         }
         else
         {
-            EnableDoors();
+            OpenDoors();
         }
         
     }
@@ -73,30 +68,28 @@ public class Room : MonoBehaviour
 
     void DefeatedAllEnemies()
     {
-        // if (roomCoord != coord)
-        // {
-        //     return;
-        // }
         RoomsManager.Instance.DefeatRoom(roomCoord);
-        OpenGates();
-        EnableDoors();
+        OpenDoors();
     }
 
-    void CloseAllGates()
+    void CloseDoors()
     {
         // Debug.Log("aa");
-        RoomsManager.Instance.roomTransitionFinished -= CloseAllGates;
+        RoomsManager.Instance.roomTransitionFinished -= CloseDoors;
         for(int i = 0; i < 4; i++)
         {
-            portoesBloqueadores[i].SetActive(true);
+            bloqueadoresDePortas[i].SetActive(true);
+            portas[i].gameObject.SetActive(false);
         }
     }
 
-    void OpenGates()
+    void CreateRoomWallsAndCorridors(bool[] aFechar)
     {
         for(int i = 0; i < 4; i++)
         {
-            portoesBloqueadores[i].SetActive(ativacaoPortoes[i]);
+            bool fechar = aFechar[i];
+            paredesTampadoras[i].SetActive(fechar);
+            corredores[i].SetActive(!fechar);
         }
     }
 
@@ -108,11 +101,12 @@ public class Room : MonoBehaviour
         }
     }
 
-    void EnableDoors()
+    void OpenDoors()
     {
-        foreach(Door porta in portas)
+        for(int i = 0; i < 4; i++)
         {
-            porta.gameObject.SetActive(true);
+            bloqueadoresDePortas[i].SetActive(false);
+            portas[i].gameObject.SetActive(true);
         }
     }
 }
