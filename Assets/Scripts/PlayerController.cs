@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]Projectile projectile;
     [SerializeField]InputAction movementInput;
     [SerializeField]InputAction attackInput;
+    [SerializeField]Camera cam;
     [SerializeField]float movementSpeed = 15f;
     [SerializeField]float cooldownTime = 0.3f;
     [SerializeField]float projectileSpeed = 16f;
@@ -18,11 +20,28 @@ public class PlayerController : MonoBehaviour
     bool onAttackCooldown = false;
 
     Vector2 Direction => movementInput.ReadValue<Vector2>().normalized;
-    bool AttackPressed => attackInput.IsPressed();
+    public bool AttackPressed => attackInput.IsPressed();
+
+    public Vector2 CursorDirectiom
+    {
+        get
+        {
+            Vector2 cursorPositionInScreen = Mouse.current.position.ReadValue();
+            Vector3 mousePositionInWorld = cam.ScreenToWorldPoint(cursorPositionInScreen);
+            return ((Vector2)(mousePositionInWorld - transform.position)).normalized;
+        }
+    }
 
     int ProjectileDamage => projectileBaseDamage + UpgradeManager.Instance.AttackUpgrades * damageUpgradeFactor;
 
     IEnumerator attackCooldownCoroutine;
+
+    public static PlayerController Instance {get; private set;}
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Start()
     {
@@ -63,6 +82,7 @@ public class PlayerController : MonoBehaviour
         }
         RoomsManager.Instance.roomTransitionStarted -= DisableControllers;
         RoomsManager.Instance.roomTransitionFinished -= EnableControllers;
+        Instance = null;
     }
 
     void DisableControllers()
@@ -103,7 +123,7 @@ public class PlayerController : MonoBehaviour
     {
         Projectile p = Instantiate(projectile);
         Vector2 cursorPositionInScreen = Mouse.current.position.ReadValue();
-        Vector3 mousePositionInWorld = Camera.main.ScreenToWorldPoint(cursorPositionInScreen);
+        Vector3 mousePositionInWorld = cam.ScreenToWorldPoint(cursorPositionInScreen);
         Vector2 mouseDirection = ((Vector2)(mousePositionInWorld - transform.position)).normalized;
         if (mouseDirection == Vector2.zero)
         {
