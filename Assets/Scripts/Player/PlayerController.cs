@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool LookingLeft {get; private set;}
+    public bool Walking {get; private set;}
 
     int ProjectileDamage => projectileBaseDamage + UpgradeManager.Instance.AttackUpgrades * damageUpgradeFactor;
 
@@ -116,6 +117,14 @@ public class PlayerController : MonoBehaviour
         else if (dir.x < 0)
         {
             LookingLeft = true;
+        }
+        if (dir != Vector2.zero)
+        {
+            Walking = true;
+        }
+        else
+        {
+            Walking = false;
         }
         if(AttackPressed && onAttackCooldown == false)
         {
