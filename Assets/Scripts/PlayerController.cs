@@ -32,6 +32,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public bool LookingLeft {get; private set;}
+
     int ProjectileDamage => projectileBaseDamage + UpgradeManager.Instance.AttackUpgrades * damageUpgradeFactor;
 
     IEnumerator attackCooldownCoroutine;
@@ -105,7 +107,16 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             return;
         }
-        rb.linearVelocity = movementSpeed * Direction;
+        Vector2 dir = Direction;
+        rb.linearVelocity = movementSpeed * dir;
+        if (dir.x > 0)
+        {
+            LookingLeft = false;
+        }
+        else if (dir.x < 0)
+        {
+            LookingLeft = true;
+        }
         if(AttackPressed && onAttackCooldown == false)
         {
             ShootProjectile();
@@ -133,7 +144,6 @@ public class PlayerController : MonoBehaviour
         // Debug.Log($"sem norm {mouseDirection} -- com norm {mouseDirection.normalized}");
         p.Shoot(mouseDirection, projectileSpeed, ProjectileDamage);
     }
-
 
     IEnumerator CooldownTimer()
     {
