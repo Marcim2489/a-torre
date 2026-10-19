@@ -1,16 +1,16 @@
 fileFormatVersion: 2
-guid: 9ef41a237c60e8d44ad637a3a7c1ac0a
+guid: da70863edd5ba7f459edd6015fd972cd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8545867418033387614
-    second: el gato v2-Sheet_0
+      213: 554768026912825217
+    second: el gato v2-Sheet 2_0
   - first:
-      213: -8768686954099891368
-    second: el gato v2-Sheet_1
+      213: -4390396802271922822
+    second: el gato v2-Sheet 2_1
   - first:
-      213: 8303492778082921071
-    second: el gato v2-Sheet_2
+      213: 186222952491065756
+    second: el gato v2-Sheet 2_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -132,67 +132,111 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: el gato v2-Sheet_0
+      name: el gato v2-Sheet 2_0
       rect:
         serializedVersion: 2
-        x: 15
-        y: 14
-        width: 19
-        height: 27
+        x: 0
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2a7098a7cdaf66980800000000000000
-      internalID: -8545867418033387614
+      spriteID: 18f12e8c49ee2b700800000000000000
+      internalID: 554768026912825217
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: el gato v2-Sheet_1
+      name: el gato v2-Sheet 2_1
       rect:
         serializedVersion: 2
-        x: 63
-        y: 14
-        width: 19
-        height: 27
+        x: 48
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 853264a7cad5f4680800000000000000
-      internalID: -8768686954099891368
+      spriteID: a753291ae5d2213c0800000000000000
+      internalID: -4390396802271922822
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: el gato v2-Sheet_2
+      name: el gato v2-Sheet 2_2
       rect:
         serializedVersion: 2
-        x: 111
-        y: 14
-        width: 19
-        height: 27
+        x: 96
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f6a67a810beeb3370800000000000000
-      internalID: 8303492778082921071
+      spriteID: c912144e9c8959200800000000000000
+      internalID: 186222952491065756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: el gato v2-Sheet 2_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 871b13e36f008734c9c6c93f472be4a5
+      internalID: 605279350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: el gato v2-Sheet 2_4
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a65c57363cc5954e935d85a038fd7d4
+      internalID: -619554658
       vertices: []
       indices: 
       edges: []
@@ -201,7 +245,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 4e63d7772b2d9c04a8f5f91f1ee0f5e5
     internalID: 0
     vertices: []
     indices: 
@@ -209,11 +253,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":3.0,"y":2.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":2,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      el gato v2-Sheet_0: -8545867418033387614
-      el gato v2-Sheet_1: -8768686954099891368
-      el gato v2-Sheet_2: 8303492778082921071
+      el gato v2-Sheet 2_0: 554768026912825217
+      el gato v2-Sheet 2_1: -4390396802271922822
+      el gato v2-Sheet 2_2: 186222952491065756
+      el gato v2-Sheet 2_3: 605279350
+      el gato v2-Sheet 2_4: -619554658
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
