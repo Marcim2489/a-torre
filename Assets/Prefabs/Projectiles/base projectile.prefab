@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4567149552917795170}
   - component: {fileID: 2278530664790715107}
   - component: {fileID: 8452525815414295672}
+  - component: {fileID: 7460507490123481679}
   m_Layer: 7
   m_Name: base projectile
   m_TagString: Untagged
@@ -50,6 +51,7 @@ MonoBehaviour:
   rb: {fileID: 8452525815414295672}
   lifeTime: 3
   destroyOnContact: 1
+  hitbox: {fileID: 7460507490123481679}
 --- !u!58 &2278530664790715107
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -113,6 +115,19 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &7460507490123481679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3076133127441420460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d528aa9ac88d7b948aaab7662e4f7117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Hitbox
+  damage: 10
 --- !u!1 &8240693160886093342
 GameObject:
   m_ObjectHideFlags: 0

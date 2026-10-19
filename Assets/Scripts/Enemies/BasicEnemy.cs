@@ -80,6 +80,6 @@ public class BasicEnemy : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.DrawSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }

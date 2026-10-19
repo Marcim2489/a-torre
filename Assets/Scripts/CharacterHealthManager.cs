@@ -22,6 +22,9 @@ public class CharacterHealthManager : MonoBehaviour
         {
             projectile.OnContact();
             TakeDamage(projectile.Damage);
+        }else if (collision.gameObject.TryGetComponent<Hitbox>(out Hitbox hitbox))
+        {
+            TakeDamage(hitbox.damage);
         }
     }
 

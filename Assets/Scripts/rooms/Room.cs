@@ -6,7 +6,9 @@ public class Room : MonoBehaviour
     [SerializeField]GameObject[] corredores = new GameObject[4];
     [SerializeField]Door[] portas = new Door[4];
     [SerializeField]GameObject[] bloqueadoresDePortas = new GameObject[4];
-    [SerializeField]CharacterHealthManager inimigo;
+    [SerializeField]CharacterHealthManager[] inimigos;
+    [SerializeField]SpawnPoint[] spawnPoints;
+    [SerializeField]int enemyAmount = 5;
 
     Vector2 roomCoord;
 
@@ -41,10 +43,12 @@ public class Room : MonoBehaviour
         if (roomCoord != RoomsManager.Instance.InitialRoom && RoomsManager.Instance.DefeatedRooms.Contains(roomCoord) == false)
         {
             RoomsManager.Instance.roomTransitionFinished += CloseDoors;
-            for(int i = 0; i < 3; i++)
+            for(int i = 0; i < enemyAmount; i++)
             {
-                CharacterHealthManager e = Instantiate(inimigo);
-                e.transform.position = transform.position + i * Vector3.right*1.5f;
+                SpawnPoint sp = spawnPoints[Random.Range(0, spawnPoints.Length)];
+                CharacterHealthManager e = Instantiate(inimigos[Random.Range(0,inimigos.Length)]);
+
+                e.transform.position = sp.transform.position + new Vector3(Random.Range(-sp.Range.x, sp.Range.x), Random.Range(-sp.Range.y, sp.Range.y));
                 e.died += EnemyKilled;
                 amountOfEnemies++;
             }
