@@ -11,6 +11,7 @@ public class Slime : MonoBehaviour
     [SerializeField]Transform eye;
     [SerializeField]float eyeRange = 0.3f;
     [SerializeField]float eyeMoveFactor = 0.2f;
+    [SerializeField]CharacterHealthManager healthManager;
 
     bool playerDetected = false;
     Transform player;
@@ -20,6 +21,7 @@ public class Slime : MonoBehaviour
     {
         player = PlayerController.Instance.transform;
         eyeInitialPosition = eye.localPosition;
+        healthManager.tookDamage += DetectPlayer;
     }
 
     void Update()
@@ -34,10 +36,19 @@ public class Slime : MonoBehaviour
         {
             if (Vector2.Distance(transform.position, player.position) <= detectionRange)
             {
-                playerDetected = true;
-                StartCoroutine(DashCoroutine());
+                DetectPlayer();
             }
         }
+    }
+
+    void DetectPlayer()
+    {
+        if (playerDetected)
+        {
+            return;
+        }
+        playerDetected = true;
+        StartCoroutine(DashCoroutine());
     }
 
     IEnumerator DashCoroutine()
@@ -51,5 +62,10 @@ public class Slime : MonoBehaviour
     {
         Vector2 direction = (player.position - transform.position).normalized;
         rigidBody.linearVelocity = direction * impulseForce;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.DrawWireSphere(transform.position, detectionRange);
     }
 }

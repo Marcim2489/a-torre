@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Staff : MonoBehaviour
+public class StaffVisual : MonoBehaviour
 {
     [SerializeField]float positioningSpeed = 0.4f;
     [SerializeField]float offsetOnAttack = 0.7f;

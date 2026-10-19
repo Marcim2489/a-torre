@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField]InputAction movementInput;
     [SerializeField]InputAction attackInput;
     [SerializeField]Camera cam;
+    [SerializeField]StaffData staffData;
     [SerializeField]float movementSpeed = 15f;
-    [SerializeField]float cooldownTime = 0.3f;
-    [SerializeField]float projectileSpeed = 16f;
-    [SerializeField]int projectileBaseDamage = 10;
+    // [SerializeField]float cooldownTime = 0.3f;
+    // [SerializeField]float projectileSpeed = 16f;
+    // [SerializeField]int projectileBaseDamage = 10;
     [SerializeField]int damageUpgradeFactor = 3;
     [SerializeField]float projectileOffset = 2f;
+    [SerializeField]SpriteRenderer staffSpriteRenderer;
 
     bool onAttackCooldown = false;
 
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour
     public bool LookingLeft {get; private set;}
     public bool Walking {get; private set;}
 
-    int ProjectileDamage => projectileBaseDamage + UpgradeManager.Instance.AttackUpgrades * damageUpgradeFactor;
+    int ProjectileDamage => staffData.ProjectileDamage + UpgradeManager.Instance.AttackUpgrades * damageUpgradeFactor;
 
     IEnumerator attackCooldownCoroutine;
 
@@ -62,6 +64,7 @@ public class PlayerController : MonoBehaviour
         };
         RoomsManager.Instance.roomTransitionFinished += EnableControllers;
         PauseManager.Instance.pauseToggled += OnPause;
+        ChangeStaff(staffData);
     }
 
     void OnPause(bool paused)
@@ -150,13 +153,19 @@ public class PlayerController : MonoBehaviour
         }
         p.transform.position = transform.position + projectileOffset * (Vector3)mouseDirection;
         // Debug.Log($"sem norm {mouseDirection} -- com norm {mouseDirection.normalized}");
-        p.Shoot(mouseDirection, projectileSpeed, ProjectileDamage);
+        p.Shoot(mouseDirection, staffData.ProjectileSpeed, ProjectileDamage);
+    }
+
+    public void ChangeStaff(StaffData newStaff)
+    {
+        staffData = newStaff;
+        staffSpriteRenderer.sprite = staffData.StaffSprite;
     }
 
     IEnumerator CooldownTimer()
     {
         onAttackCooldown = true;
-        yield return new WaitForSeconds(cooldownTime);
+        yield return new WaitForSeconds(staffData.ShotCooldown);
         onAttackCooldown = false;
     }
 }

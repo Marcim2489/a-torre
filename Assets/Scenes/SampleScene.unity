@@ -421,12 +421,11 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   cam: {fileID: 519420031}
+  staffData: {fileID: 11400000, guid: 2783f3e65dc2a4d44bfb7666ea06d587, type: 2}
   movementSpeed: 11
-  cooldownTime: 0.3
-  projectileSpeed: 16
-  projectileBaseDamage: 10
   damageUpgradeFactor: 3
   projectileOffset: 1
+  staffSpriteRenderer: {fileID: 1213456450}
 --- !u!61 &253674144
 BoxCollider2D:
   m_ObjectHideFlags: 0

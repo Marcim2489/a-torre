@@ -12,7 +12,7 @@ public class Room : MonoBehaviour
 
     Vector2 roomCoord;
 
-    int amountOfEnemies;
+    int amountOfEnemies = 0;
 
     public void Setup(bool[] portoesParaFechar, Vector2 coord)
     {
@@ -51,6 +51,7 @@ public class Room : MonoBehaviour
                 e.transform.position = sp.transform.position + new Vector3(Random.Range(-sp.Range.x, sp.Range.x), Random.Range(-sp.Range.y, sp.Range.y));
                 e.died += EnemyKilled;
                 amountOfEnemies++;
+                Debug.Log(amountOfEnemies);
             }
         }
         else
@@ -63,6 +64,7 @@ public class Room : MonoBehaviour
     void EnemyKilled()
     {
         amountOfEnemies--;
+        Debug.Log(amountOfEnemies);
         if (amountOfEnemies <= 0)
         {
             DefeatedAllEnemies();
