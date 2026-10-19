@@ -29,7 +29,7 @@ public class Slime : MonoBehaviour
         float currentSpeed = rigidBody.linearVelocity.magnitude/(impulseForce*0.7f);
 
         eye.localPosition = Vector2.Lerp(eye.localPosition, eyeInitialPosition + eyeRange * rigidBody.linearVelocity.normalized * currentSpeed, eyeMoveFactor);
-
+        eye.localPosition -= Vector3.forward;
         if (playerDetected == false)
         {
             if (Vector2.Distance(transform.position, player.position) <= detectionRange)
