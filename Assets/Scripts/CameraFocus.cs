@@ -2,18 +2,29 @@ using UnityEngine;
 
 public class CameraFocus : MonoBehaviour
 {
-    [SerializeField]float maxDistance = 3f;
-    [SerializeField]Vector2 multiplier = new Vector2(1.4f, 1f);
-    Vector2 initialLocalPosition;
+    [SerializeField]Vector2 maxDistance = new Vector2(4f, 6f);
+    // [SerializeField]Vector2 multiplier = new Vector2(1.4f, 1f);
+    // Vector2 initialLocalPosition;
     Vector2 initialPosition;
     bool active;
-    Transform player;
+    bool initialPositionSet = false;
+    // Transform player;
 
     void Start()
     {
         // player = PlayerController.Instance.transform;
-        initialLocalPosition = transform.localPosition;
+        // initialLocalPosition = transform.localPosition;
+        TrySetInitialPosition();
+    }
+
+    void TrySetInitialPosition()
+    {
+        if (initialPositionSet)
+        {
+            return;
+        }
         initialPosition = transform.position;
+        initialPositionSet = true;
     }
 
     void LateUpdate()
@@ -30,7 +41,9 @@ public class CameraFocus : MonoBehaviour
     public void Deactivate()
     {
         active = false;
-        transform.localPosition = initialLocalPosition;
+        TrySetInitialPosition();
+        transform.position = initialPosition;
+        // transform.localPosition = initialLocalPosition;
     }
 
     void HandlePosition()
@@ -39,12 +52,31 @@ public class CameraFocus : MonoBehaviour
         {
             return;
         }
-        float distance = maxDistance;
-        float playerDistance = Vector2.Distance(initialPosition, PlayerController.Instance.transform.position);
-        if (playerDistance < distance)
+        TrySetInitialPosition();
+        Vector2 newPosition = PlayerController.Instance.transform.position;
+        if (newPosition.x > initialPosition.x + maxDistance.x)
         {
-            distance = playerDistance;
+            newPosition.x = initialPosition.x + maxDistance.x;
         }
-        transform.localPosition = initialLocalPosition + ((Vector2)PlayerController.Instance.transform.position - initialPosition).normalized * multiplier * distance;
+        else if (newPosition.x < initialPosition.x - maxDistance.x)
+        {
+            newPosition.x = initialPosition.x - maxDistance.x;
+        }
+        if (newPosition.y > initialPosition.y + maxDistance.y)
+        {
+            newPosition.y = initialPosition.y + maxDistance.y;
+        }
+        else if (newPosition.y < initialPosition.y - maxDistance.y)
+        {
+            newPosition.y = initialPosition.y - maxDistance.y;
+        }
+        transform.position = newPosition;
+        // float distance = maxDistance;
+        // float playerDistance = Vector2.Distance(initialPosition, PlayerController.Instance.transform.position);
+        // if (playerDistance < distance)
+        // {
+        //     distance = playerDistance;
+        // }
+        // transform.localPosition = initialLocalPosition + ((Vector2)PlayerController.Instance.transform.position - initialPosition).normalized * multiplier * distance;
     }
 }
