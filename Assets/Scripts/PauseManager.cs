@@ -23,8 +23,18 @@ public class PauseManager : MonoBehaviour
 
     void Start()
     {
-        pauseInput.Enable();
+        EnablePauseInput();
         pauseInput.started += Pause;
+    }
+
+    public void DisablePauseInput()
+    {
+        pauseInput.Disable();
+    }
+
+    public void EnablePauseInput()
+    {
+        pauseInput.Enable();
     }
 
     void Pause(InputAction.CallbackContext context)
@@ -33,6 +43,21 @@ public class PauseManager : MonoBehaviour
         {
             return;
         }
+        if (paused == false)
+        {
+            Time.timeScale = 0f;
+            paused = true;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            paused = false;
+        }
+        pauseToggled.Invoke(paused);
+    }
+
+    public void ForceTogglePause()
+    {
         if (paused == false)
         {
             Time.timeScale = 0f;
