@@ -1500,7 +1500,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &665063771
 Transform:
   m_ObjectHideFlags: 0
@@ -1860,7 +1860,7 @@ GameObject:
   - component: {fileID: 993044370}
   - component: {fileID: 993044369}
   - component: {fileID: 993044372}
-  - component: {fileID: 993044371}
+  - component: {fileID: 993044373}
   m_Layer: 0
   m_Name: CinemachineCamera
   m_TagString: Untagged
@@ -1926,26 +1926,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &993044371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 993044368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f453f694addf4275988fac205bc91968, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineConfiner2D
-  BoundingShape2D: {fileID: 665063772}
-  Damping: 0.5
-  SlowingDistance: 0.5
-  OversizeWindow:
-    Enabled: 0
-    MaxWindowSize: 0
-    Padding: 0
-  m_LegacyMaxWindowSize: -2
 --- !u!114 &993044372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1965,6 +1945,19 @@ MonoBehaviour:
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
   FollowOffset: {x: 0, y: 0, z: -10}
+--- !u!114 &993044373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993044368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2885b1c47963fc54e87272379d9b1a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainCamera
+  cinemachineCam: {fileID: 993044369}
 --- !u!1 &1108938035
 GameObject:
   m_ObjectHideFlags: 0
@@ -2860,7 +2853,6 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   player: {fileID: 253674141}
-  cameraTarget: {fileID: 665063771}
   transitionDelta: 0.1
   transitionDistance: 3
 --- !u!4 &1592509747

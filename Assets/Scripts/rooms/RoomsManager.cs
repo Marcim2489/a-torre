@@ -17,7 +17,7 @@ public class RoomsManager : MonoBehaviour
     [SerializeField]Transform bossPlaceholder;
     [SerializeField]InputAction restart;
     [SerializeField]Transform player;
-    [SerializeField]Transform cameraTarget;
+    // [SerializeField]Transform cameraTarget;
     [SerializeField]float transitionDelta = 0.1f;
     [SerializeField]float transitionDistance = 3f;
     List<Vector2> existingRooms;
@@ -62,13 +62,13 @@ public class RoomsManager : MonoBehaviour
         }
         float cameraDelta = (transitionDelta * distanceForCamera)/transitionDistance;
         Vector3 targetPosition = player.position + transitionDistance * (Vector3)direction;
-        Vector2 cameraTargetPosition = cameraTarget.position + distanceForCamera * (Vector3)direction;
+        // Vector2 cameraTargetPosition = cameraTarget.position + distanceForCamera * (Vector3)direction;
         // cameraTarget.gameObject.SetActive(false);
         while (true)
         {
             // Debug.Log((player.position - targetPosition).magnitude);
             player.position = Vector2.MoveTowards(player.position, targetPosition, transitionDelta);
-            cameraTarget.position = Vector2.MoveTowards(cameraTarget.position, cameraTargetPosition, cameraDelta);
+            // cameraTarget.position = Vector2.MoveTowards(cameraTarget.position, cameraTargetPosition, cameraDelta);
             if ((player.position - targetPosition).magnitude < 0.01f)
             {
                 break;
@@ -76,7 +76,7 @@ public class RoomsManager : MonoBehaviour
             yield return null;
         }
         player.transform.position = targetPosition;
-        cameraTarget.transform.position = currentRoom * roomSize;
+        // cameraTarget.transform.position = currentRoom * roomSize;
         // Debug.Log("bb");
         roomTransitionFinished.Invoke();
         inTransition = false;
@@ -102,7 +102,7 @@ public class RoomsManager : MonoBehaviour
         currentRoom = coord;
         roomChanged.Invoke(currentRoom);
         player.position = currentRoom * roomSize;
-        cameraTarget.position = currentRoom * roomSize;
+        // cameraTarget.position = currentRoom * roomSize;
     }
 
     public void DefeatRoom(Vector2 coord)

@@ -98,6 +98,7 @@ public class UpgradeManager : MonoBehaviour
         {
             ClassUpgradePanel.Instance.Appear(type, 1);
             PausePanel.Instance.gameObject.SetActive(false);
+            changedClass = true;
         }
         
         upgradeObtained.Invoke();

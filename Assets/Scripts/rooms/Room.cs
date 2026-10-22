@@ -9,6 +9,7 @@ public class Room : MonoBehaviour
     [SerializeField]CharacterHealthManager[] inimigos;
     [SerializeField]SpawnPoint[] spawnPoints;
     [SerializeField]int enemyAmount = 5;
+    [SerializeField]CameraFocus camFocus;
 
     Vector2 roomCoord;
 
@@ -38,8 +39,11 @@ public class Room : MonoBehaviour
     {
         if (roomCoord != coord)
         {
+            camFocus.Deactivate();
             return;
         }
+        camFocus.Activate();
+        MainCamera.Instance.ChangeFocus(camFocus.transform);
         if (roomCoord != RoomsManager.Instance.InitialRoom && RoomsManager.Instance.DefeatedRooms.Contains(roomCoord) == false)
         {
             RoomsManager.Instance.roomTransitionFinished += CloseDoors;

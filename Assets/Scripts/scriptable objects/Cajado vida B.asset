@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cajado vida B
   m_EditorClassIdentifier: Assembly-CSharp::StaffData
   className: vida B
-  sprite: {fileID: -5115018935985252463, guid: a67ebe003bf28b147a5bf1664c1c401c, type: 3}
+  sprite: {fileID: 2785961801171939015, guid: deaa2f2c797f02848940d09c46418bd4, type: 3}
   projectile: {fileID: 4567149552917795170, guid: ecf8e893a998f9b4192ef3083d970b75, type: 3}
   shotSFX: {fileID: 0}
   projectileDamage: 10
