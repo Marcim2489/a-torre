@@ -5,16 +5,23 @@ public class CharacterHealthManager : MonoBehaviour
 {
     [SerializeField]int maxHealth = 50;
     int currentHealth;
+    public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
 
     public event UnityAction tookDamage = delegate {};
-    public event UnityAction<int> healthChanged = delegate {};
+    public event UnityAction<int> currentHealthChanged = delegate {};
+    public event UnityAction<int> maxHealthChanged = delegate {};
     public event UnityAction died = delegate {};
 
-    void Start()
+    void Awake()
     {
         currentHealth = maxHealth;
     }
+
+    // void Start()
+    // {
+    //     currentHealth = maxHealth;
+    // }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
@@ -40,10 +47,25 @@ public class CharacterHealthManager : MonoBehaviour
         {
             currentHealth = 0;
             died.Invoke();
-            healthChanged.Invoke(CurrentHealth);
+            currentHealthChanged.Invoke(CurrentHealth);
             Destroy(gameObject);
             return;
         }
-        healthChanged.Invoke(CurrentHealth);
+        currentHealthChanged.Invoke(CurrentHealth);
+    }
+
+    public void ChangeMaxHealth(int amount)
+    {
+        maxHealth += amount;
+        if (maxHealth <= 0)
+        {
+            maxHealth = 1;
+        }
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+            currentHealthChanged.Invoke(CurrentHealth);
+        }
+        maxHealthChanged.Invoke(MaxHealth);
     }
 }
