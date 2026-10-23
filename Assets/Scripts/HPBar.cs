@@ -27,11 +27,11 @@ public class HPBar : MonoBehaviour
 
     void UpdateHealthBar(int currentHP)
     {
-        hpBarDisplay.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialHPBarSize * (currentHP/initialHP));
+        hpBarDisplay.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialHPBarSize * ((float)currentHP/(float)initialHP));
     }
 
     void UpdateBackground(int newMaxHP)
     {
-        barBackground.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialBackgroundBarSize * (newMaxHP/initialHP));
+        barBackground.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialBackgroundBarSize * ((float)newMaxHP/(float)initialHP));
     }
 }
