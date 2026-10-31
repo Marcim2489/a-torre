@@ -29,7 +29,7 @@ public class ManaBar : MonoBehaviour
 
     void UpdateManaBar(float currentMana)
     {
-        Debug.Log(currentMana);
+        // Debug.Log(currentMana);
         manaBarDisplay.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialManaBarSize * (currentMana/initialMana));
     }
 

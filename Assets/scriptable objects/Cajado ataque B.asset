@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34dfa9fce28b0ee47ad8ccfa472b4e9c, type: 3}
   m_Name: Cajado ataque B
   m_EditorClassIdentifier: Assembly-CSharp::StaffData
-  className: ataque B
-  sprite: {fileID: 2785961801171939015, guid: deaa2f2c797f02848940d09c46418bd4, type: 3}
-  projectile: {fileID: 4567149552917795170, guid: ecf8e893a998f9b4192ef3083d970b75, type: 3}
+  className: Perfurador
+  sprite: {fileID: 3868224727669438503, guid: 2bbdca15449fe3c4db483cc41b3e78e6, type: 3}
+  projectile: {fileID: 4567149552917795170, guid: 8399963fe1e4c554cb1460ccee8a8cb7, type: 3}
   shotSFX: {fileID: 0}
-  projectileDamage: 10
+  projectileDamage: 15
   projectileSpeed: 13
   shotCooldown: 0.3
-  description: ddd
+  description: O projetil atravessa os inimigos e causa mais dano.
+  maxMana: 100
+  manaRegen: 5
+  manaCost: 10

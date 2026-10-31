@@ -27,9 +27,15 @@ public class CharacterHealthManager : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Projectile>(out Projectile projectile))
         {
+            Debug.Log("a");
+            // if (projectile.HittedObjects.Contains(gameObject))
+            // {
+            //     return;
+            // }
             projectile.OnContact();
             TakeDamage(projectile.Damage);
-        }else if (collision.gameObject.TryGetComponent<Hitbox>(out Hitbox hitbox))
+        }
+        else if (collision.gameObject.TryGetComponent<Hitbox>(out Hitbox hitbox))
         {
             TakeDamage(hitbox.damage);
         }

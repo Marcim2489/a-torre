@@ -52,6 +52,9 @@ MonoBehaviour:
   lifeTime: 3
   destroyOnContact: 1
   hitbox: {fileID: 5824736738989452533}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!58 &2278530664790715107
 CircleCollider2D:
   m_ObjectHideFlags: 0

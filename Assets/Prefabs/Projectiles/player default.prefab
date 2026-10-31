@@ -52,6 +52,9 @@ MonoBehaviour:
   lifeTime: 3
   destroyOnContact: 1
   hitbox: {fileID: 7460507490123481679}
+  wallLayer:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!50 &8452525815414295672
 Rigidbody2D:
   serializedVersion: 5
