@@ -10,13 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 34dfa9fce28b0ee47ad8ccfa472b4e9c, type: 3}
-  m_Name: Cajado ataque A
+  m_Name: CajadoPadrao
   m_EditorClassIdentifier: Assembly-CSharp::StaffData
-  className: ataque A
-  sprite: {fileID: 2785961801171939015, guid: deaa2f2c797f02848940d09c46418bd4, type: 3}
-  projectile: {fileID: 4567149552917795170, guid: ecf8e893a998f9b4192ef3083d970b75, type: 3}
+  className: Default
+  sprite: {fileID: -5115018935985252463, guid: a67ebe003bf28b147a5bf1664c1c401c, type: 3}
+  projectile: {fileID: 4567149552917795170, guid: abb130f0addb41244bf7e0d4f6190aa6, type: 3}
   shotSFX: {fileID: 0}
   projectileDamage: 10
   projectileSpeed: 13
   shotCooldown: 0.3
-  description: ddd
+  description: Default
+  maxMana: 100
+  manaRegen: 5
+  manaCost: 10

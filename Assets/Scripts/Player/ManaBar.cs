@@ -5,7 +5,7 @@ public class ManaBar : MonoBehaviour
     // [SerializeField]CharacterHealthManager healthManager;
     float initialManaBarSize;
     float initialBackgroundBarSize;
-    float initialMana => player.MaxMana;
+    float initialMana = 100f;
     RectTransform manaBarDisplay;
     [SerializeField]RectTransform barBackground;
     PlayerController player;

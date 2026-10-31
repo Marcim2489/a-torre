@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField]Rigidbody2D rb;
-    [SerializeField]Projectile projectile;
+    // [SerializeField]Projectile projectile;
     [SerializeField]InputAction movementInput;
     [SerializeField]InputAction attackInput;
     [SerializeField]Camera cam;
@@ -201,7 +201,7 @@ public class PlayerController : MonoBehaviour
 
     void ShootProjectile()
     {
-        Projectile p = Instantiate(projectile);
+        Projectile p = Instantiate(staffData.ProjectilePrefab);
         Vector2 cursorPositionInScreen = Mouse.current.position.ReadValue();
         Vector3 mousePositionInWorld = cam.ScreenToWorldPoint(cursorPositionInScreen);
         Vector2 mouseDirection = ((Vector2)(mousePositionInWorld - transform.position)).normalized;
@@ -210,6 +210,7 @@ public class PlayerController : MonoBehaviour
             mouseDirection = Vector2.up;
         }
         p.transform.position = transform.position + projectileOffset * (Vector3)mouseDirection;
+        p.transform.up = mouseDirection;
         // Debug.Log($"sem norm {mouseDirection} -- com norm {mouseDirection.normalized}");
         p.Shoot(mouseDirection, staffData.ProjectileSpeed, ProjectileDamage);
         CurrentMana -= staffData.ManaCost;

@@ -67,7 +67,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void AddPoints(int amount)
     {
-        LevelPoints += amount;
+        LevelPoints += amount * 5;
         // Debug.Log(LevelPoints);
     }
 
