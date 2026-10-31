@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +19,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField]int damageUpgradeFactor = 3;
     [SerializeField]float projectileOffset = 2f;
     [SerializeField]SpriteRenderer staffSpriteRenderer;
+    [SerializeField]CharacterHealthManager healthManager;
+    [SerializeField]float timeToRegenMana = 0.5f;
+
+    float regenManaTimer = 0f;
 
     bool onAttackCooldown = false;
 
@@ -33,6 +39,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    float currentMana;
+    float maxMana;
+
+    public float MaxMana
+    {
+        get
+        {
+            return maxMana;
+        } private set
+        {
+            maxMana = value;
+            maxManaChanged.Invoke(maxMana);
+        }
+    }
+    public float CurrentMana
+    {
+        get
+        {
+            return currentMana;
+        }
+        private set
+        {
+            currentMana = value;
+            currentManaChanged.Invoke(currentMana);
+        }
+    }
+
+    public event UnityAction<float> currentManaChanged = delegate {};
+    public event UnityAction<float> maxManaChanged = delegate {};
     public bool LookingLeft {get; private set;}
     public bool Walking {get; private set;}
 
@@ -45,6 +80,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        // MaxMana = staffData.MaxMana;
+        // CurrentMana = MaxMana;
     }
 
     void Start()
@@ -65,6 +102,8 @@ public class PlayerController : MonoBehaviour
         RoomsManager.Instance.roomTransitionFinished += EnableControllers;
         PauseManager.Instance.pauseToggled += OnPause;
         ChangeStaff(staffData);
+        healthManager.died += OnDied;
+        
     }
 
     void OnPause(bool paused)
@@ -77,6 +116,11 @@ public class PlayerController : MonoBehaviour
         {
             EnableControllers();
         }
+    }
+
+    void OnDied()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     void OnDestroy()
@@ -128,7 +172,7 @@ public class PlayerController : MonoBehaviour
         {
             Walking = false;
         }
-        if(AttackPressed && onAttackCooldown == false)
+        if(AttackPressed && onAttackCooldown == false && CurrentMana >= staffData.ManaCost)
         {
             ShootProjectile();
             if (attackCooldownCoroutine != null)
@@ -138,6 +182,20 @@ public class PlayerController : MonoBehaviour
             attackCooldownCoroutine = CooldownTimer();
             StartCoroutine(attackCooldownCoroutine);
             // StartCoroutine(CooldownTimer());
+        }
+        regenManaTimer += Time.fixedDeltaTime;
+        if (regenManaTimer >= timeToRegenMana)
+        {
+            regenManaTimer = 0;
+            // CurrentMana += staffData.ManaRegen;
+            if (CurrentMana + staffData.ManaRegen >= MaxMana)
+            {
+                CurrentMana = MaxMana;
+            }
+            else
+            {
+                CurrentMana += staffData.ManaRegen;
+            }
         }
     }
 
@@ -154,12 +212,15 @@ public class PlayerController : MonoBehaviour
         p.transform.position = transform.position + projectileOffset * (Vector3)mouseDirection;
         // Debug.Log($"sem norm {mouseDirection} -- com norm {mouseDirection.normalized}");
         p.Shoot(mouseDirection, staffData.ProjectileSpeed, ProjectileDamage);
+        CurrentMana -= staffData.ManaCost;
     }
 
     public void ChangeStaff(StaffData newStaff)
     {
         staffData = newStaff;
         staffSpriteRenderer.sprite = staffData.StaffSprite;
+        MaxMana = staffData.MaxMana;
+        CurrentMana = MaxMana;
     }
 
     IEnumerator CooldownTimer()

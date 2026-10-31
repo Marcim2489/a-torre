@@ -48,7 +48,7 @@ public class CharacterHealthManager : MonoBehaviour
             currentHealth = 0;
             died.Invoke();
             currentHealthChanged.Invoke(CurrentHealth);
-            Destroy(gameObject);
+            // Destroy(gameObject);
             return;
         }
         currentHealthChanged.Invoke(CurrentHealth);

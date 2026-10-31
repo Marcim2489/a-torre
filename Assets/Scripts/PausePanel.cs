@@ -12,6 +12,10 @@ public class PausePanel : MonoBehaviour
     void OnDestroy()
     {
         Instance = null;
+        if (PauseManager.Instance != null)
+        {
+            PauseManager.Instance.pauseToggled -= OnPause;
+        }
     }
 
     void Start()

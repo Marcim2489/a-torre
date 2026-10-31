@@ -22,6 +22,7 @@ public class Slime : MonoBehaviour
         player = PlayerController.Instance.transform;
         eyeInitialPosition = eye.localPosition;
         healthManager.tookDamage += DetectPlayer;
+        healthManager.died += OnDied;
     }
 
     void Update()
@@ -39,6 +40,11 @@ public class Slime : MonoBehaviour
                 DetectPlayer();
             }
         }
+    }
+
+    void OnDied()
+    {
+        Destroy(gameObject);
     }
 
     void DetectPlayer()

@@ -20,3 +20,6 @@ MonoBehaviour:
   projectileSpeed: 13
   shotCooldown: 0.3
   description: Default
+  maxMana: 100
+  manaRegen: 5
+  manaCost: 10

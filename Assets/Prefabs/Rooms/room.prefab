@@ -4589,7 +4589,7 @@ TilemapRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
@@ -5481,8 +5481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3945f032c8256846b8db89e12380327, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFocus
-  maxDistance: 3
-  multiplier: {x: 1.4, y: 1.8}
+  maxDistance: {x: 4, y: 6}
 --- !u!1 &6923801030245343756
 GameObject:
   m_ObjectHideFlags: 0
@@ -6927,7 +6926,7 @@ TilemapRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: -1
   m_MaskInteraction: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
