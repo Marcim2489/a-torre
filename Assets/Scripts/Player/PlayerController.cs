@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]SpriteRenderer staffSpriteRenderer;
     [SerializeField]CharacterHealthManager healthManager;
     [SerializeField]float timeToRegenMana = 0.5f;
+    [SerializeField]int lifeUpgradeValue = 10;
+    [SerializeField]float manaUpgradeValue = 10;
 
     float regenManaTimer = 0f;
 
@@ -103,7 +105,7 @@ public class PlayerController : MonoBehaviour
         PauseManager.Instance.pauseToggled += OnPause;
         ChangeStaff(staffData);
         healthManager.died += OnDied;
-        
+        UpgradeManager.Instance.upgradeObtained += OnUpgradeObtained;
     }
 
     void OnPause(bool paused)
@@ -220,7 +222,7 @@ public class PlayerController : MonoBehaviour
     {
         staffData = newStaff;
         staffSpriteRenderer.sprite = staffData.StaffSprite;
-        MaxMana = staffData.MaxMana;
+        MaxMana = staffData.MaxMana + UpgradeManager.Instance.ManaUpgrades * manaUpgradeValue;
         CurrentMana = MaxMana;
     }
 
@@ -229,5 +231,16 @@ public class PlayerController : MonoBehaviour
         onAttackCooldown = true;
         yield return new WaitForSeconds(staffData.ShotCooldown);
         onAttackCooldown = false;
+    }
+
+    void OnUpgradeObtained(UpgradeManager.UpgradeType type)
+    {
+        if (type == UpgradeManager.UpgradeType.LIFE)
+        {
+            healthManager.ChangeMaxHealth(lifeUpgradeValue);
+        }else if (type == UpgradeManager.UpgradeType.MANA)
+        {
+            MaxMana = staffData.MaxMana + UpgradeManager.Instance.ManaUpgrades * manaUpgradeValue;
+        }
     }
 }

@@ -9,7 +9,7 @@ public class UpgradeDisplay : MonoBehaviour
     void Start()
     {
         UpgradeManager.Instance.upgradeObtained += UpdateDisplay;
-        UpdateDisplay();
+        UpdateDisplay(upgradeType);
     }
 
     void OnDestroy()
@@ -17,7 +17,7 @@ public class UpgradeDisplay : MonoBehaviour
         UpgradeManager.Instance.upgradeObtained -= UpdateDisplay;
     }
 
-    void UpdateDisplay()
+    void UpdateDisplay(UpgradeManager.UpgradeType type)
     {
         int amount = 0;
         string t = "";
@@ -35,6 +35,11 @@ public class UpgradeDisplay : MonoBehaviour
         {
             amount = UpgradeManager.Instance.DexterityUpgrades;
             t = "Dexterity - ";
+        }
+        else if (upgradeType == UpgradeManager.UpgradeType.MANA)
+        {
+            amount = UpgradeManager.Instance.ManaUpgrades;
+            t = "Mana - ";
         }
         display.text = t + amount.ToString();
     }

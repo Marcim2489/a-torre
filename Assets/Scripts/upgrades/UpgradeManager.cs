@@ -24,10 +24,12 @@ public class UpgradeManager : MonoBehaviour
     int lifeUpgrades;
     int attackUpgrades;
     int dexterityUpgrades;
+    int manaUpgrades;
 
     public int LifeUpgrades => lifeUpgrades;
     public int AttackUpgrades => attackUpgrades;
     public int DexterityUpgrades => dexterityUpgrades;
+    public int ManaUpgrades => manaUpgrades;
 
     [SerializeField]StaffData defaultClass;
     [SerializeField]StaffData lifeClassA;
@@ -36,6 +38,8 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField]StaffData attackClassB;
     [SerializeField]StaffData dexterityClassA;
     [SerializeField]StaffData dexterityClassB;
+    [SerializeField]StaffData manaClassA;
+    [SerializeField]StaffData manaClassB;
 
     Dictionary<(UpgradeType upgradeType, int tier), (StaffData, StaffData)> existingClasses;
 
@@ -45,7 +49,9 @@ public class UpgradeManager : MonoBehaviour
 
     bool changedClass = false;
 
-    public event UnityAction upgradeObtained = delegate {};
+    UpgradeType chosenClass;
+
+    public event UnityAction<UpgradeType> upgradeObtained = delegate {};
     public event UnityAction<int> pointSpended = delegate {};
 
     void Awake()
@@ -59,6 +65,7 @@ public class UpgradeManager : MonoBehaviour
                 {(UpgradeType.LIFE, 1), (lifeClassA, lifeClassB)},
                 {(UpgradeType.ATTACK, 1), (attackClassA, attackClassB)},
                 {(UpgradeType.DEXTERITY, 1), (dexterityClassA, dexterityClassB)},
+                {(UpgradeType.MANA, 1), (manaClassA, manaClassB)}
             };
             return;
         }
@@ -67,7 +74,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void AddPoints(int amount)
     {
-        LevelPoints += amount * 5;
+        LevelPoints += amount * 15;
         // Debug.Log(LevelPoints);
     }
 
@@ -77,22 +84,44 @@ public class UpgradeManager : MonoBehaviour
         {
             return;
         }
-        LevelPoints--;
+        // if (changedClass && type)
+        
         int pointsOfClass = 0;
         if (type == UpgradeType.LIFE)
         {
+            if (changedClass && chosenClass != type && lifeUpgrades >= 5)
+            {
+                return;
+            }
             lifeUpgrades++;
             pointsOfClass = lifeUpgrades;
         }
         else if (type == UpgradeType.ATTACK)
         {
+            if (changedClass && chosenClass != type && attackUpgrades >= 5)
+            {
+                return;
+            }
             attackUpgrades++;
             pointsOfClass = attackUpgrades;
         }
         else if (type == UpgradeType.DEXTERITY)
         {
+            if (changedClass && chosenClass != type && dexterityUpgrades >= 5)
+            {
+                return;
+            }
             dexterityUpgrades++;
             pointsOfClass = dexterityUpgrades;
+        }
+        else if (type == UpgradeType.MANA)
+        {
+            if (changedClass && chosenClass != type && manaUpgrades >= 5)
+            {
+                return;
+            }
+            manaUpgrades++;
+            pointsOfClass = manaUpgrades;
         }
         if (changedClass == false && pointsOfClass == 5)
         {
@@ -100,7 +129,7 @@ public class UpgradeManager : MonoBehaviour
             PausePanel.Instance.gameObject.SetActive(false);
             changedClass = true;
         }
-        
-        upgradeObtained.Invoke();
+        LevelPoints--;
+        upgradeObtained.Invoke(type);
     }
 }

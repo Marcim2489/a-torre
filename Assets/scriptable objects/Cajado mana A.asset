@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34dfa9fce28b0ee47ad8ccfa472b4e9c, type: 3}
+  m_Name: Cajado mana A
+  m_EditorClassIdentifier: Assembly-CSharp::StaffData
+  className: mana A
+  sprite: {fileID: 2785961801171939015, guid: deaa2f2c797f02848940d09c46418bd4, type: 3}
+  projectile: {fileID: 4567149552917795170, guid: ecf8e893a998f9b4192ef3083d970b75, type: 3}
+  shotSFX: {fileID: 0}
+  projectileDamage: 10
+  projectileSpeed: 13
+  shotCooldown: 0.3
+  description: ddd
+  maxMana: 200
+  manaRegen: 20
+  manaCost: 10

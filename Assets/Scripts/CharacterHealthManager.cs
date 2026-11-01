@@ -27,7 +27,7 @@ public class CharacterHealthManager : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Projectile>(out Projectile projectile))
         {
-            Debug.Log("a");
+            // Debug.Log("a");
             // if (projectile.HittedObjects.Contains(gameObject))
             // {
             //     return;

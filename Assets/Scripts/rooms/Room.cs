@@ -68,7 +68,7 @@ public class Room : MonoBehaviour
     void EnemyKilled()
     {
         amountOfEnemies--;
-        Debug.Log(amountOfEnemies);
+        // Debug.Log(amountOfEnemies);
         if (amountOfEnemies <= 0)
         {
             DefeatedAllEnemies();

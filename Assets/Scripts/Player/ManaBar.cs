@@ -35,6 +35,6 @@ public class ManaBar : MonoBehaviour
 
     void UpdateBackground(float newMaxMana)
     {
-        barBackground.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialBackgroundBarSize * ((float)newMaxMana/(float)initialMana));
+        barBackground.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, initialBackgroundBarSize * (newMaxMana/initialMana));
     }
 }
