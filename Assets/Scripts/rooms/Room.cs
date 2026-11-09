@@ -79,7 +79,7 @@ public class Room : MonoBehaviour
     {
         RoomsManager.Instance.DefeatRoom(roomCoord);
         OpenDoors();
-        UpgradeManager.Instance.AddPoints(1);
+        GameManager.Instance.ClearedRoom();
     }
 
     void CloseDoors()
