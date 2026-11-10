@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]int damageUpgradeFactor = 3;
     [SerializeField]float projectileOffset = 2f;
     [SerializeField]SpriteRenderer staffSpriteRenderer;
+    [SerializeField]SpriteRenderer spriteRenderer;
     [SerializeField]CharacterHealthManager healthManager;
     [SerializeField]float timeToRegenMana = 0.5f;
     [SerializeField]int lifeUpgradeValue = 10;
@@ -104,6 +105,8 @@ public class PlayerController : MonoBehaviour
         PauseManager.Instance.pauseToggled += OnPause;
         ChangeStaff(staffData);
         healthManager.died += OnDied;
+        healthManager.immunityStarted += OnImmunnityStarted;
+        healthManager.immunityEnded += OnImmunnityEnded;
         UpgradeManager.Instance.upgradeObtained += OnUpgradeObtained;
     }
 
@@ -241,5 +244,15 @@ public class PlayerController : MonoBehaviour
         {
             MaxMana = staffData.MaxMana + UpgradeManager.Instance.ManaUpgrades * manaUpgradeValue;
         }
+    }
+
+    void OnImmunnityStarted()
+    {
+        spriteRenderer.color = Color.darkGray;
+    }
+
+    void OnImmunnityEnded()
+    {
+        spriteRenderer.color = Color.white;
     }
 }

@@ -416,7 +416,7 @@ GameObject:
   - component: {fileID: 253674148}
   - component: {fileID: 253674140}
   - component: {fileID: 253674147}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -610,6 +610,7 @@ MonoBehaviour:
   damageUpgradeFactor: 3
   projectileOffset: 1
   staffSpriteRenderer: {fileID: 1213456450}
+  spriteRenderer: {fileID: 253674140}
   healthManager: {fileID: 253674145}
   timeToRegenMana: 0.5
   lifeUpgradeValue: 10
@@ -673,6 +674,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterHealthManager
   maxHealth: 50
+  immunityTime: 0.5
 --- !u!61 &253674146
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -689,7 +691,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 384
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2

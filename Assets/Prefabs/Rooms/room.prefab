@@ -1562,7 +1562,7 @@ GameObject:
   - component: {fileID: 4415449955186843773}
   - component: {fileID: 3914860065074745711}
   - component: {fileID: 5749691345100521116}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: porta cima
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1900,7 +1900,7 @@ GameObject:
   - component: {fileID: 2945094691229337846}
   - component: {fileID: 7962606086713781109}
   - component: {fileID: 351116786809767950}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: porta baixo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2915,7 +2915,7 @@ GameObject:
   - component: {fileID: 4547271070733525077}
   - component: {fileID: 1221620776047121513}
   - component: {fileID: 1653167756796151572}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: porta direita
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5835,7 +5835,7 @@ GameObject:
   - component: {fileID: 7960017251116968664}
   - component: {fileID: 4198114584638199618}
   - component: {fileID: 5982590167484599744}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: porta esquerda
   m_TagString: Untagged
   m_Icon: {fileID: 0}

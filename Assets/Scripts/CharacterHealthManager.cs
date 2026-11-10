@@ -1,9 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterHealthManager : MonoBehaviour
 {
     [SerializeField]int maxHealth = 50;
+    [SerializeField]float immunityTime = 0f;
     int currentHealth;
     public int MaxHealth => maxHealth;
     public int CurrentHealth => currentHealth;
@@ -12,6 +14,9 @@ public class CharacterHealthManager : MonoBehaviour
     public event UnityAction<int> currentHealthChanged = delegate {};
     public event UnityAction<int> maxHealthChanged = delegate {};
     public event UnityAction died = delegate {};
+    public event UnityAction immunityStarted = delegate {};
+    public event UnityAction immunityEnded = delegate {};
+    bool immune = false;
 
     void Awake()
     {
@@ -25,6 +30,10 @@ public class CharacterHealthManager : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (immune)
+        {
+            return;
+        }
         if (collision.gameObject.TryGetComponent<Projectile>(out Projectile projectile))
         {
             // Debug.Log("a");
@@ -43,9 +52,13 @@ public class CharacterHealthManager : MonoBehaviour
 
     void TakeDamage(int damage)
     {
-        if (damage <= 0)
+        if (damage <= 0 || immune)
         {
             return;
+        }
+        if (immunityTime > 0f)
+        {
+            StartCoroutine(ImmunityCoroutine());
         }
         tookDamage.Invoke();
         currentHealth -= damage;
@@ -73,5 +86,14 @@ public class CharacterHealthManager : MonoBehaviour
             currentHealthChanged.Invoke(CurrentHealth);
         }
         maxHealthChanged.Invoke(MaxHealth);
+    }
+
+    IEnumerator ImmunityCoroutine()
+    {
+        immune = true;
+        immunityStarted.Invoke();
+        yield return new WaitForSeconds(immunityTime);
+        immune = false;
+        immunityEnded.Invoke();
     }
 }
